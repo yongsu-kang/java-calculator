@@ -18,9 +18,10 @@ public class CalculatorService {
 
         List<String> list = createList(calculationFormula);
 
-        if (list.contains("*")||list.contains("/")) calc(list, "*", "/");
-
-        if (list.contains("+")||list.contains("-")) calc(list, "+","-");
+        mul(list);
+        div(list);
+        add(list);
+        sub(list);
 
         String result = list.get(0);
         return result;
@@ -54,29 +55,52 @@ public class CalculatorService {
         return list;
     }
 
-    private void calc(List<String> list, String operator1, String operator2) {
+    private void add(List<String> list) {
+        while (list.contains("+")){
+            int operatorIndex = list.indexOf("+");
 
-        for (int operatorIndex = 1; operatorIndex < list.size(); operatorIndex += 2) {
-            String formulaOperator = list.get(operatorIndex);
+            double b = Double.parseDouble(list.remove(operatorIndex + 1));
+            list.remove(operatorIndex);
+            double a =Double.parseDouble(list.remove(operatorIndex - 1));
 
-            if (formulaOperator.equals(operator1) || formulaOperator.equals(operator2)) {
-                double b = Double.parseDouble(list.remove(operatorIndex + 1));
-                list.remove(operatorIndex);
-                double a = Double.parseDouble(list.remove(operatorIndex - 1));
-
-                if (formulaOperator.equals("*")) {
-                    list.add(operatorIndex - 1, String.valueOf(a * b));
-                } else if (formulaOperator.equals("/")) {
-                    list.add(operatorIndex - 1, String.valueOf(a / b));
-                } else if (formulaOperator.equals("+")) {
-                    list.add(operatorIndex - 1, String.valueOf(a + b));
-                } else {
-                    list.add(operatorIndex - 1, String.valueOf(a - b));
-                }
-
-                operatorIndex -= 2;
-            }
+            list.add(operatorIndex - 1, String.valueOf(a + b));
         }
+    }
 
+    private void sub(List<String> list) {
+        while (list.contains("-")){
+            int operatorIndex = list.indexOf("-");
+
+            double b = Double.parseDouble(list.remove(operatorIndex + 1));
+            list.remove(operatorIndex);
+            double a =Double.parseDouble(list.remove(operatorIndex - 1));
+
+            list.add(operatorIndex - 1, String.valueOf(a - b));
+        }
+    }
+
+    private void mul(List<String> list) {
+
+        while (list.contains("*")){
+            int operatorIndex = list.indexOf("*");
+
+            double b = Double.parseDouble(list.remove(operatorIndex + 1));
+            list.remove(operatorIndex);
+            double a =Double.parseDouble(list.remove(operatorIndex - 1));
+
+            list.add(operatorIndex - 1, String.valueOf(a * b));
+        }
+    }
+
+    private void div(List<String> list) {
+        while (list.contains("/")){
+            int operatorIndex = list.indexOf("/");
+
+            double b = Double.parseDouble(list.remove(operatorIndex + 1));
+            list.remove(operatorIndex);
+            double a =Double.parseDouble(list.remove(operatorIndex - 1));
+
+            list.add(operatorIndex - 1, String.valueOf(a / b));
+        }
     }
 }
